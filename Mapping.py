@@ -374,7 +374,7 @@ class Mapping:
 			scliplist = [os.path.join(self.alignDir,self.sampleID+'.'+chr+'.sclip.txt') for chr in self.chroms]
 			step5 = 'echo "No filter cover!!!"'
 			if wtffpe == 'Y':
-				step5 = 'count=$(less %s|wc -l)' % final_cover +'\n'+ 'if [ $count -gt 10000000 ];then python %s -i %s -o %s && mv %s %s && mv %s %s;else echo "No filter cover";fi' % ('/PROJ/HUMAN/share/Cancer/script/Cover_Filter.py',final_cover,os.path.join(self.alignDir,self.sampleID+'.flt.cover'),final_cover,os.path.join(self.alignDir,self.sampleID+'.raw.cover'),os.path.join(self.alignDir,self.sampleID+'.flt.cover'),final_cover)
+				step5 = 'count=$(less %s|wc -l)' % final_cover +'\n'+ 'if [ $count -gt 10000000 ];then python %s -i %s -o %s && mv %s %s && mv %s %s;else echo "No filter cover";fi' % ('Cancer/script/Cover_Filter.py',final_cover,os.path.join(self.alignDir,self.sampleID+'.flt.cover'),final_cover,os.path.join(self.alignDir,self.sampleID+'.raw.cover'),os.path.join(self.alignDir,self.sampleID+'.flt.cover'),final_cover)
 			step1 = 'cat '+' \\\n\t'.join(coverlist) + ' \\\n\t>'+final_cover
 			step2 = 'cat '+' \\\n\t'.join(scliplist) + ' \\\n\t>'+final_sclip
 			step3 = 'rm -rf '+' \\\n\t'.join(coverlist)

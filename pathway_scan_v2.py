@@ -49,7 +49,7 @@ def p_adjust(ps, method ='BH', test_num = None):
 
 def symbol():
 	genes = {'primary':{},'second':{}}
-	for line in open('/PUBLIC/database/HUMAN/AnnotationDB/Homo_sapiens.gene_info'):
+	for line in open('AnnotationDB/Homo_sapiens.gene_info'):
 		array = line.strip().split('\t')
 		if line.startswith('#'):
 			continue

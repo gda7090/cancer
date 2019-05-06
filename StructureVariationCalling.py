@@ -145,7 +145,7 @@ class SV:
 		chr_txt = [os.path.join(crestoutDir,self.sampleID+'.crest.sv.%s.predSV.txt' % chr) for chr in self.chroms]
 		#step1 = 'cat '+'\\\n\t'.join(chr_gff)+'\\\n\t>'+ os.path.join(crestoutDir,(self.sampleID+'.crest.sv.gff'))
 		step1 = 'cat '+'\\\n\t'.join(chr_txt)+'\\\n\t>'+ os.path.join(crestoutDir,(self.sampleID+'.crest.sv.predSV.txt'))
-		step2 = 'perl /ifs/TJPROJ3/CANCER/share/software/CREST/var_sv_CREST.toGff.pl ' + os.path.join(crestoutDir,(self.sampleID+'.crest.sv.predSV.txt')) +' > '+os.path.join(crestoutDir,(self.sampleID+'.crest.sv.gff'))
+		step2 = 'perl share/software/CREST/var_sv_CREST.toGff.pl ' + os.path.join(crestoutDir,(self.sampleID+'.crest.sv.predSV.txt')) +' > '+os.path.join(crestoutDir,(self.sampleID+'.crest.sv.gff'))
 		step3 = '  \\\n\t'.join([self.annovar,
 		'-r %s' % self.refData,
 		'-u %s' % self.genome_info['annovarbuild'],

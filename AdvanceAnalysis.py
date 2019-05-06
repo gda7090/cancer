@@ -95,13 +95,13 @@ class AdvAnalysis:
 
 	def driverGene(self):
 		order = 'order driverGene after combine_maf'
-		step1 = '\\\n\t'.join(['/PUBLIC/software/HUMAN/MutSig/MutSigCV_1.4/run_MutSigCV.sh',
+		step1 = '\\\n\t'.join(['MutSig/MutSigCV_1.4/run_MutSigCV.sh',
 			os.path.join(self.prepareDir,'Somatic_mutation.maf'),
-			'/PUBLIC/software/HUMAN/MutSig/dbfiles/exome_full192.coverage.txt',
-			'/PUBLIC/software/HUMAN/MutSig/dbfiles/gene.covariates.txt',
+			'MutSig/dbfiles/exome_full192.coverage.txt',
+			'MutSig/dbfiles/gene.covariates.txt',
 			os.path.join(self.driverDir,'MutSigCV'),
-			'/PUBLIC/software/HUMAN/MutSig/dbfiles/mutation_type_dictionary_file.txt',
-			'/PUBLIC/software/HUMAN/driver_mutation/data/chr_files_hg19'])
+			'MutSig/dbfiles/mutation_type_dictionary_file.txt',
+			'driver_mutation/data/chr_files_hg19'])
 		step2 = 'cut -f 1,8,9,10,14,15 %s > %s' % \
 			(os.path.join(self.driverDir,'MutSigCV.sig_genes.txt'),os.path.join(self.driverDir,'MutSigCV.sig_genes.xls'))
 		return ' && \\\n'.join([step1,step2])+'\n',order
@@ -130,9 +130,9 @@ class AdvAnalysis:
 		open(os.path.join(self.gisticDir,'somatic_cnv.list'),'w').write(''.join(info))
 		open(os.path.join(self.prepareDir,'somatic_cnv.list'),'w').write(''.join(info))
 		if self.socnvM == 'freec':
-			markerfile = '/PUBLIC/software/HUMAN/GISTIC/markerfiles/freec.wgs_w250.markersfile.txt'
+			markerfile = 'GISTIC/markerfiles/freec.wgs_w250.markersfile.txt'
 			if 'WGS' in self.seqstrag:
-				markerfile = '/PUBLIC/software/HUMAN/GISTIC/markerfiles/freec.wgs_w1000.markersfile.txt'
+				markerfile = 'GISTIC/markerfiles/freec.wgs_w1000.markersfile.txt'
 			step1 = '\\\n\t'.join(['python %s'%(os.path.join(self.advbin,'gistic_cnv.py')),
 				'-i %s' % os.path.join(self.gisticDir,'somatic_cnv.list'),
 				'-m %s' % markerfile,
@@ -232,7 +232,7 @@ do
 \t\t-c $Nvcf \\
 \t\t-o predispose/$Nid.predispose_genes.snvs.xls -n $Nid \\
 \t\t-x SIFT_score,SIFT_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred,Polyphen2_HDIV_score,Polyphen2_HDIV_pred,MutationTaster_score,MutationTaster_pred,caddgt10 \\
-\t\t-b /PUBLIC/database/HUMAN/AnnotationDB/CGC/CGC.CancerType \\
+\t\t-b AnnotationDB/CGC/CGC.CancerType \\
 \t\t-m %s -f avsnp142
 done<%s/snplist
 while read Nid Nvcf
@@ -241,7 +241,7 @@ do
 \t\t-c $Nvcf \\
 \t\t-o predispose/$Nid.predispose_genes.indels.xls -n $Nid \\
 \t\t-x SIFT_score,SIFT_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred,Polyphen2_HDIV_score,Polyphen2_HDIV_pred,MutationTaster_score,MutationTaster_pred,caddindel \\
-\t\t-b /PUBLIC/database/HUMAN/AnnotationDB/CGC/CGC.CancerType \\
+\t\t-b AnnotationDB/CGC/CGC.CancerType \\
 \t\t-m %s -f avsnp142
 done<%s/indellist
 awk 'NR==1 || FNR>1' predispose/*.predispose_genes.snvs.xls predispose/*.predispose_genes.indels.xls > %s/Predispose_genes.snvs_indels.xls
@@ -259,7 +259,7 @@ do
 \tpython %s -v $Tvcf \\
 \t\t-o drivergene/$Tid.DriverGenes.snvs.xls -t $Tid \\
 \t\t-x SIFT_score,SIFT_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred,Polyphen2_HDIV_score,Polyphen2_HDIV_pred,MutationTaster_score,MutationTaster_pred,caddgt10 \\
-\t\t-b /PUBLIC/database/HUMAN/AnnotationDB/CGC/CancerGenes.db \\
+\t\t-b AnnotationDB/CGC/CancerGenes.db \\
 \t\t-m %s -f avsnp142
 done<%s/sosnvlist
 while read Tid Tvcf
@@ -267,7 +267,7 @@ do
 \tpython %s -v $Tvcf \\
 \t\t-o drivergene/$Tid.DriverGenes.indels.xls -t $Tid \\
 \t\t-x SIFT_score,SIFT_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred,Polyphen2_HDIV_score,Polyphen2_HDIV_pred,MutationTaster_score,MutationTaster_pred,caddindel \\
-\t\t-b /PUBLIC/database/HUMAN/AnnotationDB/CGC/CancerGenes.db \\
+\t\t-b AnnotationDB/CGC/CancerGenes.db \\
 \t\t-m %s -f avsnp142
 done<%s/soindellist
 awk 'NR==1 || FNR>1' drivergene/*.DriverGenes.snvs.xls drivergene/*.DriverGenes.indels.xls > %s/DriverGenes.snvs_indels.xls
@@ -318,7 +318,7 @@ awk 'NR==1 || FNR>1' drivergene/*.DriverGenes.snvs.xls drivergene/*.DriverGenes.
 		return ' \\\n\t'.join(['python %s' % os.path.join(self.advbin,'DrugResistance.py'),
 			'-m %s' % os.path.join(self.prepareDir,'Somatic_mutation.maf'),
 			'-o %s' % self.resistanceDir,
-			'-r %s' % '/PROJ/HUMAN/share/Cancer/Drug/database/Resistance_drug_database'])+'\n',order
+			'-r %s' % 'Cancer/Drug/database/Resistance_drug_database'])+'\n',order
 
 
 	def noncoding_filter(self):

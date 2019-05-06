@@ -94,7 +94,7 @@ class QC:
 			cmd.append('mv %s_%s_2.clean.fq %s_%s_2.fq'%(self.sampleID,alib,self.sampleID,alib))
 			cmd.append('gzip -f %s_%s_2.fq'%(self.sampleID,alib))
 		if rmdup:
-			step2 = '\\\n\t'.join(['python /PROJ/HUMAN/share/Cancer/QC_report/duplication_rm/removedup_from_fastq.py',
+			step2 = '\\\n\t'.join(['python Cancer/QC_report/duplication_rm/removedup_from_fastq.py',
 				'-l %s' % rawfq1,
 				'-r %s' % rawfq2,
 				'-o %s' % os.path.join(self.rawdir,self.sampleID),
@@ -103,14 +103,14 @@ class QC:
 			cmd.append(step2)
 
 		if fqcheck:
-			step1 = '\\\n\t'.join(['/PROJ/HUMAN/share/Cancer_new/QC_report/fqcheck_adapter',
-				'-a /PROJ/HUMAN/share/Cancer_new/QC_report/p7_adapter.fa',
+			step1 = '\\\n\t'.join(['Cancer_new/QC_report/fqcheck_adapter',
+				'-a Cancer_new/QC_report/p7_adapter.fa',
 				'-r %s_%s_1.fq.gz' % (self.sampleID,alib),
 				'-l %s_%s_1.adapter.list.gz' % (self.sampleID,alib),
 				'-s %s_%s_1.adapter.stat' % (self.sampleID,alib),
 				'-c %s_%s_1.adapter.fqcheck' % (self.sampleID,alib)])
-			step2 = '\\\n\t'.join(['/PROJ/HUMAN/share/Cancer_new/QC_report/fqcheck_adapter',
-				'-a /PROJ/HUMAN/share/Cancer_new/QC_report/p5_adapter.fa',
+			step2 = '\\\n\t'.join(['Cancer_new/QC_report/fqcheck_adapter',
+				'-a Cancer_new/QC_report/p5_adapter.fa',
 				'-r %s_%s_2.fq.gz' % (self.sampleID,alib),
 				'-l %s_%s_2.adapter.list.gz' % (self.sampleID,alib),
 				'-s %s_%s_2.adapter.stat' % (self.sampleID,alib),
@@ -152,14 +152,14 @@ class QC:
 			fq2 = os.path.join(self.qcdir,self.sampleID,'%s_%s_2.fq.gz'%(self.sampleID,alib))
 			
 			##fqcheck##
-			step3 = '\\\n\t'.join(['/PROJ/HUMAN/share/Cancer_new/QC_report/fqcheck_adapter',
-                                '-a /PROJ/HUMAN/share/Cancer_new/QC_report/p7_adapter.fa',
+			step3 = '\\\n\t'.join(['Cancer_new/QC_report/fqcheck_adapter',
+                                '-a Cancer_new/QC_report/p7_adapter.fa',
                                 '-r %s_%s_1.fq.gz' % (self.sampleID,alib),
                                 '-l %s_%s_1.adapter.list.gz' % (self.sampleID,alib),
                                 '-s %s_%s_1.adapter.stat' % (self.sampleID,alib),
                                 '-c %s_%s_1.adapter.fqcheck' % (self.sampleID,alib)])
-                        step4 = '\\\n\t'.join(['/PROJ/HUMAN/share/Cancer_new/QC_report/fqcheck_adapter',
-                                '-a /PROJ/HUMAN/share/Cancer_new/QC_report/p5_adapter.fa',
+                        step4 = '\\\n\t'.join(['Cancer_new/QC_report/fqcheck_adapter',
+                                '-a Cancer_new/QC_report/p5_adapter.fa',
                                 '-r %s_%s_2.fq.gz' % (self.sampleID,alib),
                                 '-l %s_%s_2.adapter.list.gz' % (self.sampleID,alib),
                                 '-s %s_%s_2.adapter.stat' % (self.sampleID,alib),
@@ -191,7 +191,7 @@ class QC:
 	def pollution(self,alib):
 		order = 'order pollution_%s after ln_%s_%s' % (self.sampleID,self.sampleID,alib)
 		step0 = 'cd %s\nif [ ! -f "%s.pollution.xls" ];then' % (os.path.join(self.qcdir,self.sampleID), self.sampleID)
-		step1 = '\\\n\t'.join(['/PROJ/HUMAN/share/Cancer/script/generate_contamination_QC_v2.pl',
+		step1 = '\\\n\t'.join(['Cancer/script/generate_contamination_QC_v2.pl',
 			'%s/%s_%s_1.fq.gz' %(os.path.join(self.rawdir,self.sampleID),self.sampleID,alib),'1e-8 ',
 			'>%s/pollution.sh' % os.path.join(self.qcdir,self.sampleID)])
 		step2 = 'sh %s/pollution.sh' % os.path.join(self.qcdir,self.sampleID)

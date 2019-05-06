@@ -200,18 +200,18 @@ open(os.path.join(args.outdir,'pars.params.'+args.func),'w').write('%s\nY\n'%(pr
 phylip = '''
 log=%s/log
 cd %s && \\
-cp /PUBLIC/software/public/Evolution/phylip-3.695/src/font1 fontfile && \\
+cp Evolution/phylip-3.695/src/font1 fontfile && \\
 if [ -f outtree ];then rm -f outtree; fi && \\
 if [ -f outfile ];then rm -f outfile; fi && \\
 if [ -f plotfile ];then rm -f plotfile; fi && \\
 echo %s ... pars infer tree ... > $log
 echo ........................................... >> $log
-/PUBLIC/software/public/Evolution/phylip-3.695/exe/pars < pars.params.%s >> $log && \\
+Evolution/phylip-3.695/exe/pars < pars.params.%s >> $log && \\
 mv -f outfile %s.pars_out && \\
 mv -f outtree %s.tree
 #echo %s ... drawtree ... > $log
 #echo ........................................... >> $log
-#/PUBLIC/software/public/Evolution/phylip-3.695/exe/drawtree < drawtree.params.%s >> $log && \\
+#Evolution/phylip-3.695/exe/drawtree < drawtree.params.%s >> $log && \\
 #mv -f plotfile %s.tree.pdf && \\
 #convert %s.tree.pdf %s.tree.png
 ''' % (args.outdir, args.outdir, args.patient, args.func, prefix, prefix, args.patient, args.func, prefix, prefix, prefix)

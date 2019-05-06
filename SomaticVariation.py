@@ -76,7 +76,7 @@ class Somatic:
 		order = 'order somaticsamtoolscalling_%s after somaticsamtoolsMpileup_%s' % (self.sampleID,self.sampleID)
 		step1 = 'bcftools call -vc %s > %s' % (os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.mpileup'),
 			os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.mpileup.vcf'))
-		step2 = 'python /PROJ/HUMAN/share/Cancer_pipeline/v1.5/filter.after_adjust.py %s %s' % (os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.mpileup.vcf'),
+		step2 = 'python Cancer_pipeline/v1.5/filter.after_adjust.py %s %s' % (os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.mpileup.vcf'),
 		#step2 = 'filter_somatic_snv.pl -normalDP 8 -tumorDP 8 %s > %s' % (os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.mpileup.vcf'),
 			os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.somatic.vcf'))
 		step3 = 'awk \'/^#/ || /INDEL;/\' %s > %s' % (os.path.join(self.somaticsnvDirsam,self.sampleID+'.samtools.somatic.vcf'),
@@ -509,7 +509,7 @@ class Somatic:
 			'> '+final_somatic_cover])
 		step2 = 'echo "No filter"'
 		if wtffpe == 'Y':
-			step2 = 'count=$(less %s|wc -l)' % final_somatic_cover +'\n'+ 'if [ $count -gt 10000000 ];then python %s -i %s -o %s && mv %s %s && mv %s %s;else echo "No filter cover";fi' % ('/PROJ/HUMAN/share/Cancer/script/Cover_Filter.py',final_somatic_cover,os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.flt.cover'),final_somatic_cover,os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.raw.cover'),os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.flt.cover'),final_somatic_cover)
+			step2 = 'count=$(less %s|wc -l)' % final_somatic_cover +'\n'+ 'if [ $count -gt 10000000 ];then python %s -i %s -o %s && mv %s %s && mv %s %s;else echo "No filter cover";fi' % ('Cancer/script/Cover_Filter.py',final_somatic_cover,os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.flt.cover'),final_somatic_cover,os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.raw.cover'),os.path.join(self.somaticsvDirc,self.sampleID+'.somatic.flt.cover'),final_somatic_cover)
 		return ' && \\\n'.join([step1,step2]) + '\n',order
 	
 	def crest_somaticSV(self):
@@ -575,7 +575,7 @@ class Somatic:
 		chr_txt = [os.path.join(self.somaticsvDirc,self.sampleID+'.crest.somatic.sv.%s.predSV.txt' % chr) for chr in self.chroms]
 		#step1 = 'cat '+'\\\n\t'.join(chr_gff)+'\\\n\t>'+ os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.gff'))
 		step1 = 'cat '+'\\\n\t'.join(chr_txt)+'\\\n\t>'+ os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.predSV.txt'))
-		step2 = 'perl /ifs/TJPROJ3/CANCER/share/software/CREST/var_sv_CREST.toGff.pl ' + os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.predSV.txt')) + ' > '+ os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.gff'))
+		step2 = 'perl share/software/CREST/var_sv_CREST.toGff.pl ' + os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.predSV.txt')) + ' > '+ os.path.join(self.somaticsvDirc,(self.sampleID+'.crest.somatic.sv.gff'))
 		step3 = '  \\\n\t'.join([self.annovar,
 		'-r %s' % self.refData,
 		'-u %s' % self.genome_info['annovarbuild'],
@@ -601,7 +601,7 @@ class Somatic:
 			'-T %s' % self.somaticsvDirl,
 			'-K %s' % os.path.join(self.speedseqDir,'bin','speedseq.config'),
 			'-P -v -k'])
-		step2 = 'python /PROJ/HUMAN/share/Cancer/summary/lumpy_filter1.py -vcf %s -o %s' % (os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.tmp.vcf'),os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.vcf'))
+		step2 = 'python Cancer/summary/lumpy_filter1.py -vcf %s -o %s' % (os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.tmp.vcf'),os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.vcf'))
 		step3 = ' \\\n\t'.join(['python %s/lumpy_vcf2gff.py' % self.advDir,
 			os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.vcf'),
 			os.path.join(self.somaticsvDirl,self.sampleID+'.lumpy.somatic.sv.gff')])

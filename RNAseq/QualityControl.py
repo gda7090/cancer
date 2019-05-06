@@ -19,7 +19,7 @@ class QC:
 		cmd = '''cd %s
 gzip -dc %s |head -n 4000000 > %s_1.test.fq && \\
 gzip -dc %s |head -n 4000000 > %s_2.test.fq && \\
-/PUBLIC/software/public/Alignment/bowtie2-2.0.6/bowtie2 \\
+Alignment/bowtie2-2.0.6/bowtie2 \\
   -x /PUBLIC/database/RNA/Med/Database/rRNA/hsa/hsa \\
   -1 %s_1.test.fq -2 %s_2.test.fq --end-to-end --sensitive -p 8 --phred33 --no-mixed -X 600 \\
   -S %s.test.rRNA.sam 2>%s.test.rRNA.stat.txt && \\
@@ -27,7 +27,7 @@ rm %s_1.test.fq %s_2.test.fq %s.test.rRNA.sam && \\
 maprate=$(tail -n 1 %s.test.rRNA.stat.txt | awk '{print $1}' | awk -F '%%' '{print $1}') && \\
 maprate=$(echo $maprate/1|bc) && \\
 if [[ $maprate -ge %d ]]; then
-  /PUBLIC/software/public/Alignment/bowtie2-2.0.6/bowtie2 \\
+  Alignment/bowtie2-2.0.6/bowtie2 \\
     -x /PUBLIC/database/RNA/Med/Database/rRNA/hsa/hsa \\
     -1 %s -2 %s --end-to-end --sensitive -p 8 --phred33 --no-mixed -X 600 \\
     --un-conc-gz %s.unmap.gz \\

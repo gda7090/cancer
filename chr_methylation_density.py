@@ -215,7 +215,7 @@ multiplot(p1,p2,p3,p4)
 dev.off()
 ''' % (den_dir, chr, den_dir)
 		open(den_dir+'/'+chr+'_mCX_density.r','w').write(code)
-		os.system('/PUBLIC/software/RNA/R-3.1.2/R-3.1.2/bin/Rscript --vanilla '+den_dir+'/'+chr+'_mCX_density.r')
+		os.system('R-3.1.2/R-3.1.2/bin/Rscript --vanilla '+den_dir+'/'+chr+'_mCX_density.r')
 	#	print 'chr density statistics have been finished\n'
 	code='''
 options(stringsAsFactors=FALSE)
@@ -261,5 +261,5 @@ ggsave(paste(sample_name,"all_chr_mC_density_distribution.png",sep='.'),type='ca
 ''' % (label, argv.chrlist, den_dir)
 #	print "all_chr_density began\n"
 	open(den_dir+'/all_chr_mCX_density.r','w').write(code)
-	os.system('/PUBLIC/software/RNA/R-3.1.2/R-3.1.2/bin/Rscript --vanilla '+den_dir+'/all_chr_mCX_density.r')
+	os.system('R-3.1.2/R-3.1.2/bin/Rscript --vanilla '+den_dir+'/all_chr_mCX_density.r')
 
